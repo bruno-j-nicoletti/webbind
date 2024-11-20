@@ -28,8 +28,8 @@ endif()
 
 add_compile_options(-fwasm-exceptions)
 add_compile_options(-pthread)
-#add_compile_options(-DEMSCRIPTEN_HAS_UNBOUND_TYPE_NAMES=0)
-#add_compile_options(-fno-rtti)
+add_compile_options(-DEMSCRIPTEN_HAS_UNBOUND_TYPE_NAMES=0)
+add_compile_options(-fno-rtti)
 add_compile_options(-DNDEBUG)
 add_compile_options(-Wno-attributes)
 add_compile_options(-ffp-contract=off)
@@ -49,8 +49,8 @@ add_executable(Example
 target_link_options(Example
   PUBLIC
   "SHELL:--pre-js ${CMAKE_CURRENT_SOURCE_DIR}/JS/helloWorld.js"
-  "SHELL:--extern-post-js ${CMAKE_CURRENT_SOURCE_DIR}/JS/loadWebBind.js"
   "SHELL:--post-js ${CMAKE_CURRENT_SOURCE_DIR}/JS/post.js"
+  "SHELL:--extern-post-js ${CMAKE_CURRENT_SOURCE_DIR}/JS/loadWebBind.js"
   -sALLOW_MEMORY_GROWTH
   -sDISABLE_EXCEPTION_CATCHING
   -sINVOKE_RUN=0

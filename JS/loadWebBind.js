@@ -1,5 +1,4 @@
 WebBind = null;
-cheese = 10;
 
 const loadWebBind = async function() {
     if (WebBind === null) {
@@ -9,6 +8,6 @@ const loadWebBind = async function() {
         WebBind = await swbLoader;
         console.log("DONE LOADING");
     }
-    WebBind.callMain();
+    WebBind.dave(10);// callMain();
     return WebBind;
 }();
