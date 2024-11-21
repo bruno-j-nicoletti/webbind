@@ -4,7 +4,7 @@ project(WebBind VERSION 0.1)
 
 
 IF (NOT ${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
-  message(FATAL_ERROR "SkiaWebBindings need to be compiled with emscripten to WASM, currently building to ${CMAKE_SYSTEM_NAME}.")
+  message(FATAL_ERROR "WebBind need to be compiled with emscripten to WASM, currently building to ${CMAKE_SYSTEM_NAME}.")
 endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -26,10 +26,6 @@ if(CCACHE_PROGRAM)
 endif()
 
 
-add_compile_options(-fwasm-exceptions)
-add_compile_options(-pthread)
-add_compile_options(-DEMSCRIPTEN_HAS_UNBOUND_TYPE_NAMES=0)
-add_compile_options(-fno-rtti)
 add_compile_options(-DNDEBUG)
 add_compile_options(-Wno-attributes)
 add_compile_options(-ffp-contract=off)
@@ -37,17 +33,27 @@ add_compile_options(-fstrict-aliasing)
 add_compile_options(-fPIC)
 add_compile_options(-fvisibility=hidden)
 add_compile_options(-O3)
+
 add_compile_options(-std=c++17)
 add_compile_options(-fvisibility-inlines-hidden)
 add_compile_options(-fno-exceptions)
+
+add_compile_options(-pthread)
+
+# comment out the two lines below and it works
+add_compile_options(-fno-rtti)
+add_compile_options(-DEMSCRIPTEN_HAS_UNBOUND_TYPE_NAMES=0)
 
 set(CMAKE_EXECUTABLE_SUFFIX ".js")
 
 add_executable(Example
   "src/main.cpp")
 
+
 target_link_options(Example
   PUBLIC
+  -Oz
+  -fno-rtti
   "SHELL:--pre-js ${CMAKE_CURRENT_SOURCE_DIR}/JS/helloWorld.js"
   "SHELL:--post-js ${CMAKE_CURRENT_SOURCE_DIR}/JS/post.js"
   "SHELL:--extern-post-js ${CMAKE_CURRENT_SOURCE_DIR}/JS/loadWebBind.js"
@@ -64,15 +70,13 @@ target_link_options(Example
   -sMODULARIZE
   -sNO_EXIT_RUNTIME=1
   -sINITIAL_MEMORY=128MB
-  -sUSE_WEBGL2=1
-  -sMAX_WEBGL_VERSION=2
   -sWASM=1
   -sSTRICT=1
   -sASSERTIONS=0
-  --bind
   --no-entry
   -sASSERTIONS=0
-  -sEXIT_RUNTIME)
+  -sEXIT_RUNTIME
+  -lembind)
 
 add_custom_command(
   TARGET Example POST_BUILD
