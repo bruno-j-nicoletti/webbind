@@ -1,5 +1,5 @@
-.PHONY : release
-release :
+.PHONY : webBind
+webBind :
 	if [ ! -d build ] ; then mkdir build; fi
-	emcmake cmake -GNinja -B build .
-	cd build; ninja
+	emcmake cmake -B build .
+	cd build; make

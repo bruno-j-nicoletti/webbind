@@ -21,5 +21,8 @@ const loadWebBind = async function() {
 
     // Call a function bound via EMSCRIPTEN_BINDINGS,
     WebBind.boundIntFunc(10);
+
+    // call main which will call helloWorld in JS via the val API
+    WebBind._main();
     return WebBind;
 }();

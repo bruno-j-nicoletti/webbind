@@ -38,9 +38,9 @@ add_compile_options(-std=c++17)
 add_compile_options(-fvisibility-inlines-hidden)
 add_compile_options(-fno-exceptions)
 
-add_compile_options(-pthread)
+# enable this and it will fail
+#add_compile_options(-pthread)
 
-# comment out the two lines below and it works
 add_compile_options(-fno-rtti)
 add_compile_options(-DEMSCRIPTEN_HAS_UNBOUND_TYPE_NAMES=0)
 
@@ -52,7 +52,7 @@ add_executable(Example
 
 target_link_options(Example
   PUBLIC
-  -Oz
+  -O3
   -fno-rtti
   "SHELL:--pre-js ${CMAKE_CURRENT_SOURCE_DIR}/JS/helloWorld.js"
   "SHELL:--post-js ${CMAKE_CURRENT_SOURCE_DIR}/JS/post.js"
@@ -76,7 +76,7 @@ target_link_options(Example
   --no-entry
   -sASSERTIONS=0
   -sEXIT_RUNTIME
-  -lembind)
+  --bind)
 
 add_custom_command(
   TARGET Example POST_BUILD
