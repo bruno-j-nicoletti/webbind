@@ -39,7 +39,7 @@ add_compile_options(-fvisibility-inlines-hidden)
 add_compile_options(-fno-exceptions)
 
 # enable this and it will fail
-#add_compile_options(-pthread)
+add_compile_options(-pthread)
 
 add_compile_options(-fno-rtti)
 add_compile_options(-DEMSCRIPTEN_HAS_UNBOUND_TYPE_NAMES=0)
